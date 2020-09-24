@@ -1,0 +1,460 @@
+/** 
+ * Class of the ArrayList made by me
+ * @author HalsteBA20
+ * @version 10.07.2019
+ */
+public class MyArrayList 
+{
+    private Object[] values;
+    
+    private int size;
+ //Constructors
+    
+ /** 
+  * Creates a MyArrayList with a cap of 10
+  * 
+  */
+    
+    public MyArrayList()
+    {
+        this(10);
+    }
+    
+ /** 
+  * Creates a MyArrayList with the given cap
+  * @param cap The amount of slots the array inside the MyArrayList starts with
+  */
+    
+    public MyArrayList(int cap)
+    {
+        values = new Object[cap];
+        size = 0;
+    }
+    
+/**
+ * Creates an MyArrayList as copy of another MyArrayList
+ * @param other The MyArrayList being copied
+ */
+    
+    public MyArrayList(MyArrayList other)
+    {
+        this(other.size());
+        addAll(other);
+    }
+    
+    /**
+    * Returns the array called values stored inside the MyArrayList
+    * @return The values array
+    */
+    
+    public Object[] getValues()
+    {
+        return values;
+    }
+    
+    /**
+    * Returns the size of the MyArrayList
+    * @return the size of the MyArrayList
+    */
+    
+    public int size()
+    {
+        return size;
+    }
+    
+    /**
+    * Returns the string at the given slot of the MyArrayList
+    * @param slot The slot of which the String inside will be returned
+    * @return String at the given slot of the MyArrayList
+    */
+    
+    public E get(int slot)
+    {
+        
+        if (slot < 0 || slot >= size())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        return values[slot];
+    }
+    
+    /**
+    * Adds a string to the end of the MyArrayList 
+    * @param text The String to be added
+    * @return If the string was added
+    */
+    
+    public boolean add(E text)
+    {
+        size++;
+        
+        if (size > values.length)
+        {
+            doubleSize();
+        }
+        
+        values[size() - 1] = text;
+        
+        return true;
+        
+    }
+    
+    /**
+    * Adds a string to the MyArrayList at the given slot.
+    * @param slot The slot that the string will be added to
+    * @param text The String to be added
+    * @return If the string was added
+    */
+
+    public boolean add(int slot, E text)
+    {
+        if (slot < 0 || slot > size())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        if (slot == size())
+        {
+            add(text);
+            return true;
+        }
+        
+        size++;
+        
+        if (size > values.length )
+        {
+            doubleSize();
+        }
+        
+        String[] temp = new String[size() - slot];
+        
+        int j = 0;
+        
+        for (int i = slot; i < size(); i++ )
+        {
+            temp[j] = values[i];
+            j++;
+        }
+        
+        values[slot] = text;
+        
+        j = 0;
+        
+        for (int i = slot + 1; i < size(); i++)
+        {
+            values[i] = temp[j];
+            j++;
+        }
+        
+        return true;
+          
+    }
+    
+    /**
+    * Adds all the strings from a MyArrayList to the end of this one
+    * @param other MyArrayList to be added
+    * @return If it was added or not
+    */
+    
+    public boolean addAll(MyArrayList other)
+    {
+        for (int i = 0; i < other.size(); i++)
+        {
+            add(other.get(i));
+            
+        }
+        
+        return true;
+        
+    }
+    
+    /**
+    * Adds all the strings from a MyArrayList to a given slot of this one
+    * @param slot The slot the MyArrayList will be added to
+    * @param other MyArrayList to be added
+    * @return If it was added or not
+    */
+    
+    public boolean addAll(int slot, MyArrayList other)
+    {
+        if (slot < 0 || slot >= size())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        for (int i = 0; i < other.size(); i++)
+        {
+            add(slot + i, other.get(i));
+            
+        }
+        return true;
+    }
+    
+    /**
+    * Makes the size of the MyArrayList zero
+    */
+    
+    public void clear()
+    {
+        size = 0;
+    }
+    
+    /**
+    * Returns if the MyArrayList has a given String in it
+    * @param text The String that will be checked
+    * @return if the string is within the MyArrayList
+    */
+    
+    public boolean contains(E text) 
+    {
+        for (int i = 0; i < size(); i++) 
+        {
+            if (get(i).equals(text))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+    * Returns the first index containing the given String
+    * @param text String that's index will be returned
+    * @return Index of given String
+    */
+    
+    public int indexOf(E text)
+    {
+        for (int i = 0; i < size(); i++)
+        {
+            if (get(i).equals(text))
+            {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+    
+    /**
+    * Returns if the MyArrayList is empty
+    * @return If the MyArrayList is empty
+    */
+    
+    public boolean isEmpty()
+    {
+        return size == 0;
+    }
+    
+    /**
+    * Returns the last index containing the given String
+    * @param text String that's index will be returned
+    * @return Index of given String
+    */
+    
+    public int lastIndexOf(E text)
+    {
+        for (int i = size() - 1; i >= 0; i--)
+        {
+            if (get(i).equals(text))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    /**
+    * Removes the slot from the MyArrayList
+    * @param slot The slot that will be removed
+    * @return The String inside the given slot
+    */
+    
+    public Object remove(int slot)
+    {
+        if (slot < 0 || slot >= size())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        E ans = values[slot];
+        for (int i = slot; i < size() - 1; i++)
+        {
+            values[i] = values[i + 1];
+        }
+        size--;
+        return ans;
+    }
+    
+    /**
+    * Removes the string from the MyArrayList
+    * @param text String to be removed
+    * @return If the string was removed
+    */
+    
+    public boolean remove(E text)
+    {
+        if (contains(text))
+        {
+            remove(indexOf(text));
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+    * Removes all the Strings from the MyArrayList that 
+    * are the same as the String in an other MyArrayList
+    * @param other The Other MyArrayList
+    * @return If the MyArrayList String were removed
+    */
+    
+    public boolean removeAll(MyArrayList other)
+    {
+        MyArrayList temp = new MyArrayList(this);
+        
+        for (int i = 0; i < other.size(); i++)
+        {
+            remove(other.get(i));
+        }
+        
+        return !temp.equals(this);
+    }
+    
+    /**
+    * Changes the slot of the MyArrayList to the given String
+    * @param slot The slot to be changed
+    * @param text The String the slot will change to
+    * @return What the slot used to contain
+    */
+    
+    public Object set(int slot, String text)
+    {
+        if (slot < 0 || slot >= size())
+        {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        E temp = values[slot];
+        values[slot] = text;
+        return temp;
+    }
+    
+    /**
+    * returns a smaller MyArrayList starting 
+    * and ending at the given range slots.
+    * @param first The first slot of the sub MyArrayList 
+    * @param last The last slot of the sub MyArrayList
+    * @return The smaller MyArrayList
+    */
+    
+    public MyArrayList subList(int first, int last)
+    {
+        MyArrayList whateverYouWant = new MyArrayList();
+        
+        for (int i = first; i <= last; i++)
+        {
+            whateverYouWant.add(get(i));
+        }
+        
+        return whateverYouWant;
+    }
+    
+    /**
+    * Converts the MyArrayList to an array
+    * @return The MyArrayList as a String array
+    */
+    
+    public Object[] toArray()
+    {
+        MyArrayList temp = new MyArrayList(this);
+        temp.trimToSize();
+        return temp.getValues();
+    }
+    
+    /**
+    *removes the filler elements in the Array within the MyArrayList 
+    */
+    
+    public void trimToSize()
+    {
+        E[] temp = new E[size];
+        for (int i = 0; i < size(); i++)
+        {
+            temp[i] = values[i];
+        }
+        
+        values = temp;
+        
+    }
+    
+    /**
+    * Doubles the amount of slots the MyArrayList is able to hold
+    */
+    
+    private void doubleSize()
+    {
+        E[] temp = new E[size * 2 + 1];
+        
+        for (int i = 0; i < size() - 1; i++)
+        {
+            temp[i] = values[i];
+        }
+        
+        values = temp;
+    }
+    
+    /**
+    * Converts the MyArrayList to a string starting with "[" 
+    * and separated with ", " for each string, ending with "]"
+    * @return The MyArrayList as a String 
+    */
+    
+    public Object toString()
+    {    
+        String ans = "[";
+        
+        for (int i = 0; i < size() - 1; i++)
+        {
+            ans += values[i] + ", ";
+        }
+        
+        ans += values[size() - 1] + "]";
+            
+        return ans;
+  
+    }
+    
+    /**
+    * Returns if the MyArrayList is the same as another 
+    * @param other The MyArrayList to be compared
+    * @return If the MyArrayList is the same as another 
+    */
+    
+    public boolean equals(Object other)
+    {
+        if (!(other instanceof MyArrayList))
+        {
+            return false;
+        }
+        
+        if (size() != ((MyArrayList) other).size())
+        {
+            return false;
+        }
+        
+        for (int i = 0; i < size(); i++)
+        {
+            if (values[i] != ((MyArrayList) other).get(i))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+}
