@@ -1,0 +1,275 @@
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * Test class for MyArrayList
+ * 
+ * @author BlevinJC20 and HalsteBA20
+ * @version 10.07.2019
+ *
+ */
+public class MyArrayListTest {
+
+    private MyArrayList<String> thing;
+    private String[] stringtwe;
+    private String[] stringten;
+    private MyArrayList<String> real;
+    private MyArrayList<String> full;
+    private MyArrayList<Integer> otherThing;
+    private MyArrayList<Integer> otherFull;
+    private Integer[] inte;
+
+    /**
+     * cow
+     */
+
+    @Before
+    public void setUp() {
+        full = new MyArrayList<String>();
+        thing = new MyArrayList<String>(20);
+        stringtwe = new String[20];
+        stringten = new String[10];
+        real = new MyArrayList<String>();
+        full.add("This");
+        full.add("My");
+        full.add("Array");
+        full.add("List");
+        full.add("Is");
+        full.add("Full");
+        full.add("Of");
+        full.add("Junk");
+        full.add("And");
+        full.add("Stuff");
+        // INTEGERS
+        otherFull = new MyArrayList<Integer>();
+        otherThing = new MyArrayList<Integer>(20);
+        inte = new Integer[20];
+        otherFull.add(1);
+        otherFull.add(2);
+        otherFull.add(3);
+        otherFull.add(4);
+        otherFull.add(5);
+        otherFull.add(5);
+        otherFull.add(6);
+
+    }
+
+    /**
+     * cow
+     */
+
+    @After
+    public void tearDown() {
+        thing = null;
+        stringtwe = null;
+        stringten = null;
+        real = null;
+        full = null;
+        inte = null;
+        otherFull = null;
+        otherThing = null;
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testConstructor() {
+        assertArrayEquals(otherThing.getValues(), inte);
+        assertArrayEquals(thing.getValues(), stringtwe);
+        assertArrayEquals(real.getValues(), stringten);
+        full.addAll(999, real);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testAddAll() {
+        real.add("j");
+        real.add("c");
+        real.add("b");
+        real.add("n");
+        MyArrayList<String> anotherOne = new MyArrayList<String>(real);
+        assertArrayEquals(real.toArray(), anotherOne.toArray());
+        assertEquals(real.size(), anotherOne.size());
+        full.addAll(2, real);
+
+        assertArrayEquals(full.toArray(),
+                new String[] { "This", "My", "j", "c", "b", "n", "Array",
+                    "List", "Is", "Full", "Of", "Junk", "And", "Stuff" });
+        full.addAll(-2, real);
+
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testAdd() {
+        full.add(10, "lol");
+        assertArrayEquals(full.toArray(), new String[] { "This", "My", "Array",
+            "List", "Is", "Full", "Of", "Junk", "And", "Stuff", "lol" });
+        full.add(9, "More");
+        assertArrayEquals(full.toArray(),
+                new String[] { "This", "My", "Array", "List", "Is", "Full",
+                    "Of", "Junk", "And", "More", "Stuff", "lol" });
+        full.add(12, "rofl");
+        assertArrayEquals(full.toArray(),
+                new String[] { "This", "My", "Array", "List", "Is", "Full",
+                    "Of", "Junk", "And", "More", "Stuff", "lol", "rofl" });
+        full.add(-2, "word");
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testAddCantFit() {
+        full.add(7, "Word");
+        assertArrayEquals(full.toArray(), new String[] { "This", "My", "Array",
+            "List", "Is", "Full", "Of", "Word", "Junk", "And", "Stuff" });
+        full.add(9999, "word");
+    }
+
+    /**
+     * cow
+     */
+
+    @Test
+    public void testClearAndIsEmpty() {
+        assertEquals(full.isEmpty(), false);
+        full.clear();
+        assertArrayEquals(full.toArray(), new String[0]);
+        assertEquals(full.isEmpty(), true);
+
+    }
+
+    /**
+     * cow
+     */
+
+    @Test
+    public void testContains() {
+        assertEquals(full.contains("Junk"), true);
+        assertEquals(full.contains("Family"), false);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test
+    public void testIndexOf() {
+        assertEquals(full.indexOf("Junk"), 7);
+        assertEquals(full.indexOf("Family"), -1);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test
+    public void testLastIndexOf() {
+        full.add("Array");
+        assertEquals(full.lastIndexOf("Array"), 10);
+        assertEquals(full.lastIndexOf("Family"), -1);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testRemove() {
+        full.remove("Array");
+        assertArrayEquals(new String[] { "This", "My", "List", "Is", "Full",
+            "Of", "Junk", "And", "Stuff" }, full.toArray());
+        MyArrayList<String> temp = new MyArrayList<String>(3);
+        temp.add("My");
+        temp.add("Is");
+        temp.add("Full");
+        full.removeAll(temp);
+        assertArrayEquals(
+                new String[] { "This", "List", "Of", "Junk", "And", "Stuff" },
+                full.toArray());
+        full.remove("Jesus");
+        full.removeAll(real);
+        full.remove(-2);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testSet() {
+        full.set(2, "Link");
+        assertArrayEquals(new String[] { "This", "My", "Link", "List", "Is",
+            "Full", "Of", "Junk", "And", "Stuff" }, full.toArray());
+        full.remove(999);
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testSubList() {
+        assertArrayEquals(
+                new String[] { "Full", "Of", "Junk", "And", "Stuff" },
+                full.subList(5, full.size() - 1).toArray());
+        full.set(-1, "word");
+
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testToString() {
+        assertEquals(
+                "[This, My, Array, List, Is, Full, " + "Of, Junk, And, Stuff]",
+                full.toString());
+        full.set(999, "word");
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testEquals() {
+        MyArrayList<String> temp = new MyArrayList<String>(full);
+        assertEquals(true, temp.equals(full));
+        assertEquals(false, real.equals(full));
+        real.add("Word");
+        thing.add("Word");
+        assertEquals(true, real.equals(thing));
+        thing.remove(0);
+        thing.add("Words");
+        assertEquals(false, real.equals(thing));
+        assertEquals(false, real.equals("God"));
+        full.set(999, "word");
+    }
+
+    /**
+     * cow
+     */
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGet() {
+        assertEquals("This", full.get(0));
+        full.set(999, "word");
+    }
+
+}
